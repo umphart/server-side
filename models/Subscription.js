@@ -48,7 +48,8 @@ const Subscription = {
       referralAgentContact: 'referral_agent_contact',
       agreedToTerms: 'agreed_to_terms',
       signatureText: 'signature_text',
-      signatureFile: 'signature_file'
+      signatureFile: 'signature_file',
+      plotId: 'plot_id', 
     };
 
     // Filter out undefined values and map to database columns

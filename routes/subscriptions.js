@@ -29,6 +29,7 @@ router.post(
       if (req.files["signatureFile"]) {
         data.signatureFile = req.files["signatureFile"][0].path;
       }
+      console.log("Received subscription with plotId:", data.plotId);
 
       const subscription = await Subscription.create(data);
 
