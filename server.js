@@ -745,6 +745,9 @@ app.use((error, req, res, next) => {
     message: 'Internal server error' 
   });
 });
+app.get('/api/something', (req, res) => {
+  res.send('Some response');
+});
 
 // ====================== SERVER START ======================
 
