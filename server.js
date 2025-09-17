@@ -745,7 +745,7 @@ app.use((error, req, res, next) => {
     message: 'Internal server error' 
   });
 });
-app.get('/api/something', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Some response');
 });
 
@@ -755,6 +755,7 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(process.env.DB_HOST);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
 
 });
