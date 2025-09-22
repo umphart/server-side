@@ -43,7 +43,7 @@ app.use(helmet());
 // CORS middleware
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://musabaha-home-ltd.onrender.com",
+  "https://server-side-05i1.onrender.com",
   "https://musabaha-homes.vercel.app", // ✅ correct frontend URL
 ];
 
