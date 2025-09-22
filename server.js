@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Admin = require('./models/Admin');
+const multer = require("multer"); 
 
 // Load env vars
 dotenv.config();
