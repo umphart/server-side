@@ -70,6 +70,8 @@ app.use(cors({
 app.options("*", cors());
 
 
+
+
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
