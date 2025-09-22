@@ -3,6 +3,7 @@ const router = express.Router();
 const Subscription = require("../models/Subscription");
 const upload = require("../middleware/upload");
 const path = require("path");
+const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -12,7 +13,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-const multer = require("multer");
+
 // Create subscription (with files)
 router.post(
   "/",
