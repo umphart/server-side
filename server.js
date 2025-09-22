@@ -47,10 +47,12 @@ app.use("/uploads", express.static(uploadPath));
 app.use(helmet());
 
 // CORS middleware
+const cors = require("cors");
+
 const allowedOrigins = [
-  'http://localhost:3000',
-  "https://server-side-05i1.onrender.com",
-  'https://musabahahomeltd.vercel.app'
+  "http://localhost:3000",
+  "https://musabaha-homes.vercel.app",  // ✅ frontend
+  "https://server-side-05i1.onrender.com", // (optional, for testing)
 ];
 
 app.use(cors({
@@ -58,11 +60,15 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true
+  credentials: true,
 }));
+
+// Handle preflight requests explicitly (important for POST)
+app.options("*", cors());
+
 
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
