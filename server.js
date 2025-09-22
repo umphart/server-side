@@ -7,21 +7,41 @@ const User = require('./models/User');
 const Admin = require('./models/Admin');
 const multer = require("multer"); 
 
+const fs = require("fs");
+const path = require("path");
+
+// Load env vars
+dotenv.config();
+;
+
 // Load env vars
 dotenv.config();
 
 const app = express();
 
 const path = require("path");
+// ====================== FILE UPLOADS FIX ======================
+// Make sure uploads folder always exists (Render resets FS)
+const uploadPath = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "uploads"));
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
+const upload = multer({ storage });
+
+// Serve uploaded files
+app.use("/uploads", express.static(uploadPath));
+
+// ===============================================================
+
 
 // Security middleware
 app.use(helmet());
@@ -29,7 +49,7 @@ app.use(helmet());
 // CORS middleware
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://musabaha-home-ltd.onrender.com',
+  "https://server-side-05i1.onrender.com",
   'https://musabahahomeltd.vercel.app'
 ];
 
@@ -729,44 +749,29 @@ app.get('/api/admin/payments/user/:id', async (req, res) => {
 
 // ====================== HEALTH CHECK ENDPOINT ======================
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    success: true,
-    message: 'Musabaha Homes API server is running!',
-    timestamp: new Date().toISOString()
-  });
+app.get("/api/health", (req, res) => {
+  res.json({ success: true, message: "Musabaha Homes API server is running!" });
 });
- 
-// ====================== ERROR HANDLING MIDDLEWARE ======================
 
-// Handle 404 - This should be AFTER all other routes
-app.all('*', (req, res) => {
-  res.status(404).json({ 
+// ====================== ERROR HANDLING ======================
+app.all("*", (req, res) => {
+  res.status(404).json({
     success: false,
-    message: 'API endpoint not found' 
+    message: "API endpoint not found",
   });
 });
 
-// Error handling middleware - This should be AFTER all other routes
 app.use((error, req, res, next) => {
-  console.error('Server error:', error);
-  res.status(500).json({ 
+  console.error("Server error:", error);
+  res.status(500).json({
     success: false,
-    message: 'Internal server error' 
+    message: "Internal server error",
   });
-});
-app.get('/api', (req, res) => {
-  res.send('Some response');
 });
 
 // ====================== SERVER START ======================
-
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(process.env.DB_HOST);
-  console.log(`Health check: http://localhost:${PORT}/api/health`);
-
+  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`🌍 Health check: http://localhost:${PORT}/api/health`);
 });
