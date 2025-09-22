@@ -11,6 +11,17 @@ dotenv.config();
 
 const app = express();
 
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "uploads"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
 // Security middleware
 app.use(helmet());
 
@@ -36,6 +47,7 @@ const path = require("path");
 
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // Body parser middleware
 app.use(express.json({ limit: '10mb' }));
