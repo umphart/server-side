@@ -8,20 +8,20 @@ const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   ssl: {
-    rejectUnauthorized: false, // Needed for Render’s SSL connection
+    rejectUnauthorized: false, // required for Render PostgreSQL
   },
 });
 
 // Test connection
 pool.connect((err, client, release) => {
   if (err) {
-    return console.error('Error acquiring client', err.stack);
+    return console.error('❌ Error acquiring client', err.stack);
   }
   console.log('✅ Connected to PostgreSQL database');
   client.query('SELECT NOW()', (err, result) => {
     release();
     if (err) {
-      return console.error('Error executing query', err.stack);
+      return console.error('❌ Error executing query', err.stack);
     }
     console.log('⏰ Database time:', result.rows[0]);
   });

@@ -29,9 +29,10 @@ app.use(helmet());
 // CORS middleware
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://musabaha-home-ltd.onrender.com',
-  'https://musabahahomeltd.vercel.app'
+  'https://musabaha-home-ltd.onrender.com', 
+  'https://musabaha-homes.vercel.app'   // ✅ correct frontend URL
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -731,12 +732,9 @@ app.get('/api/admin/payments/user/:id', async (req, res) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    success: true,
-    message: 'Musabaha Homes API server is running!',
-    timestamp: new Date().toISOString()
-  });
+  res.json({ success: true, message: 'Musabaha Homes API server is running!' });
 });
+
  
 // ====================== ERROR HANDLING MIDDLEWARE ======================
 
