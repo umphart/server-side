@@ -43,8 +43,6 @@ app.use(cors({
   credentials: true
 }));
 
-const path = require("path");
-
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
